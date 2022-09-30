@@ -20,6 +20,7 @@
 import FloorItem from "@/components/FloorItem";
 import ButtonGroup from "@/components/ButtonsGroup";
 import ElevatorShaft from "@/components/ElevatorShaft";
+import DefaultValues from "@/emulator.config";
 export default {
   name: "EmulatorPanel",
   components: { ElevatorShaft, ButtonGroup, FloorItem },
@@ -113,6 +114,10 @@ export default {
 
       return result;
     },
+  },
+  created() {
+    this.floors = this.generateFloors(DefaultValues.floorsCount);
+    this.elevators = this.generateElevators(DefaultValues.elevatorsCount);
   },
 };
 </script>
