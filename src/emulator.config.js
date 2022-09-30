@@ -1,4 +1,4 @@
 module.exports = {
   floorsCount: 10,
-  elevatorsCount: 2,
+  elevatorsCount: 1,
 };

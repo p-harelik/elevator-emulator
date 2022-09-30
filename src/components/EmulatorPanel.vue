@@ -26,41 +26,9 @@ export default {
   components: { ElevatorShaft, ButtonGroup, FloorItem },
   data() {
     return {
-      floors: [
-        {
-          number: 1,
-          isActiveButton: false,
-          isSelectElevator: false,
-        },
-        {
-          number: 2,
-          isActiveButton: false,
-          isSelectElevator: false,
-        },
-        {
-          number: 3,
-          isActiveButton: false,
-          isSelectElevator: false,
-        },
-      ],
-      elevators: [
-        {
-          id: 1,
-          startFloorNumber: 1,
-          endFloorNumber: 1,
-          speed: 1000,
-          waitTime: 3000,
-          status: "free",
-        },
-        {
-          id: 2,
-          startFloorNumber: 1,
-          endFloorNumber: 1,
-          speed: 1000,
-          waitTime: 3000,
-          status: "free",
-        },
-      ],
+      floors: [],
+      elevators: [],
+      callQueue: [],
     };
   },
   computed: {
@@ -73,18 +41,73 @@ export default {
     freeElevators() {
       return this.elevators.filter((elevator) => elevator.status === "free");
     },
+    waitElevators() {
+      return this.elevators.filter((elevator) => elevator.status === "wait");
+    },
+    moveElevators() {
+      return this.elevators.filter((elevator) => elevator.status === "move");
+    },
+    activeFloors() {
+      return this.floors.filter((floor) => floor.isActiveButton);
+    },
+  },
+  watch: {
+    callQueue() {
+      this.saveActiveFloors();
+      if (this.freeElevators.length) {
+        const targetFloor = this.callQueue.shift();
+        const targetElevator = this.getTargetElevator(
+          this.freeElevators,
+          targetFloor
+        );
+        this.moveElevator(targetElevator, targetFloor);
+      }
+    },
   },
   methods: {
     handlerCallOfElevator(floorNumber) {
-      if (!this.isElevatorOnTargetFloor(floorNumber)) {
-        this.floors[floorNumber - 1].isActiveButton = true;
-        this.callQueue = [...this.callQueue, floorNumber];
-      }
+      setTimeout(() => {
+        if (!this.isElevatorOnTargetFloor(floorNumber)) {
+          this.floors[floorNumber - 1].isActiveButton = true;
+          this.callQueue = [...this.callQueue, floorNumber];
+        }
+      }, 0);
     },
     isElevatorOnTargetFloor(floorNumber) {
-      return this.freeElevators.find(
+      return this.elevators.find(
         (elevator) => elevator.startFloorNumber === floorNumber
       );
+    },
+    getTargetElevator(elevators, floor) {
+      const arr = [...elevators].sort(
+        (el1, el2) =>
+          Math.abs(el1.startFloorNumber - floor) -
+          Math.abs(el2.startFloorNumber - floor)
+      );
+      return arr[0];
+    },
+
+    moveElevator(elevator, floor) {
+      elevator.endFloorNumber = floor;
+      elevator.status = "move";
+      const moveTime =
+        elevator.speed * Math.abs(elevator.startFloorNumber - floor);
+
+      setTimeout(() => {
+        elevator.status = "wait";
+        this.floors[floor - 1].isActiveButton = false;
+        elevator.startFloorNumber = floor;
+
+        setTimeout(() => {
+          elevator.status = "free";
+          this.saveActiveFloors();
+          this.saveElevators();
+
+          if (this.callQueue.length) {
+            this.moveElevator(elevator, this.callQueue.shift());
+          }
+        }, elevator.waitTime);
+      }, moveTime);
     },
     generateFloors(floorsCount) {
       const result = [];
@@ -93,7 +116,6 @@ export default {
         result.push({
           number: i,
           isActiveButton: false,
-          isSelectElevator: false,
         });
       }
       return result;
@@ -114,6 +136,25 @@ export default {
 
       return result;
     },
+    saveActiveFloors() {
+      sessionStorage.setItem("activeFloors", JSON.stringify(this.activeFloors));
+    },
+    saveElevators() {
+      console.log(this.elevators);
+      sessionStorage.setItem("elevators", JSON.stringify(this.elevators));
+    },
+  },
+  mounted() {
+    if (sessionStorage.getItem("elevators")) {
+      const elevators = JSON.parse(sessionStorage.getItem("elevators"));
+      this.elevators = elevators;
+    }
+    if (sessionStorage.getItem("activeFloors")) {
+      const activeFloors = JSON.parse(
+        sessionStorage.getItem("activeFloors")
+      ).map((floor) => floor.number);
+      activeFloors.forEach(this.handlerCallOfElevator);
+    }
   },
   created() {
     this.floors = this.generateFloors(DefaultValues.floorsCount);

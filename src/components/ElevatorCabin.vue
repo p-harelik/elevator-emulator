@@ -6,7 +6,6 @@
     }"
     :style="liftStyle"
   >
-    {{ position }}
     <h1 v-if="elevatorItem.status !== 'free'">
       {{ direction }} {{ elevatorItem.endFloorNumber }}
     </h1>
