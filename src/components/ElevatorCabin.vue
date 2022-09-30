@@ -1,10 +1,52 @@
 <template>
-  <div class="elevator-cabine"></div>
+  <div
+    class="elevator-cabine"
+    :class="{
+      wait: elevatorItem.status === 'wait',
+    }"
+    :style="liftStyle"
+  >
+    {{ position }}
+    <h1 v-if="elevatorItem.status !== 'free'">
+      {{ direction }} {{ elevatorItem.endFloorNumber }}
+    </h1>
+  </div>
 </template>
 
 <script>
 export default {
   name: "ElevatorCabine",
+  props: {
+    elevatorItem: {
+      type: Object,
+      required: true,
+    },
+    floorHeight: {
+      type: Number,
+    },
+  },
+  computed: {
+    direction() {
+      return this.elevatorItem.endFloorNumber >
+        this.elevatorItem.startFloorNumber
+        ? "🡅"
+        : "🡇";
+    },
+    position() {
+      // const { endFloorNumber } = this.elevatorItem;
+      return (this.elevatorItem.endFloorNumber - 1) * this.floorHeight;
+    },
+    moveTime() {
+      const { startFloorNumber, endFloorNumber, speed } = this.elevatorItem;
+      return Math.abs(startFloorNumber - endFloorNumber) * speed;
+    },
+    liftStyle() {
+      return {
+        transitionDuration: `${this.moveTime}ms`,
+        bottom: `${this.position}%`,
+      };
+    },
+  },
 };
 </script>
 
