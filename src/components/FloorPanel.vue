@@ -1,7 +1,7 @@
 <template>
   <div class="floor-panel">
     <h3>{{ floorNumber }}</h3>
-    <button>Вызов</button>
+    <button @click="addCallOfElevator">Вызов</button>
   </div>
 </template>
 

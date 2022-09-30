@@ -4,7 +4,7 @@
       <div class="container__underlay">
         <floor-item v-for="n in floors.length" :key="n" />
       </div>
-      <button-group :floors="floors" />
+      <button-group :floors="floors" @addCall="handlerCallOfElevator" />
       <elevator-shaft
         v-for="elevator in elevators"
         :key="elevator.id"
@@ -68,6 +68,11 @@ export default {
     },
     floorHeight() {
       return 100 / this.floorsCount;
+    },
+  },
+  methods: {
+    handlerCallOfElevator(floorNumber) {
+      console.log("Вызван этаж ", floorNumber);
     },
   },
 };

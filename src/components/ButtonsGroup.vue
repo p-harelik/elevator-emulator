@@ -5,6 +5,7 @@
       :key="idx"
       :floorNumber="idx + 1"
       :is-active="floor.isActiveButton"
+      @addCall="addCallOfElevator"
     />
   </div>
 </template>
@@ -18,6 +19,11 @@ export default {
     floors: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    addCallOfElevator(floorNumber) {
+      this.$emit("addCall", floorNumber);
     },
   },
 };
