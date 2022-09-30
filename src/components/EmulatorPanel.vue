@@ -69,10 +69,33 @@ export default {
     floorHeight() {
       return 100 / this.floorsCount;
     },
+    freeElevators() {
+      return this.elevators.filter((elevator) => elevator.status === "free");
+    },
   },
   methods: {
     handlerCallOfElevator(floorNumber) {
-      console.log("Вызван этаж ", floorNumber);
+      if (!this.isElevatorOnTargetFloor(floorNumber)) {
+        this.floors[floorNumber - 1].isActiveButton = true;
+        this.callQueue = [...this.callQueue, floorNumber];
+      }
+    },
+    isElevatorOnTargetFloor(floorNumber) {
+      return this.freeElevators.find(
+        (elevator) => elevator.startFloorNumber === floorNumber
+      );
+    },
+    generateFloors(floorsCount) {
+      const result = [];
+
+      for (let i = 1; i <= floorsCount; i += 1) {
+        result.push({
+          number: i,
+          isActiveButton: false,
+          isSelectElevator: false,
+        });
+      }
+      return result;
     },
   },
 };
