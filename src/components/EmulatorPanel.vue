@@ -97,6 +97,22 @@ export default {
       }
       return result;
     },
+    generateElevators(elevatorsCount) {
+      const result = [];
+      for (let i = 1; i <= elevatorsCount; i += 1) {
+        const elevator = {
+          id: i,
+          startFloorNumber: 1,
+          endFloorNumber: 1,
+          speed: 1000,
+          waitTime: 3000,
+          status: "free",
+        };
+        result.push(elevator);
+      }
+
+      return result;
+    },
   },
 };
 </script>
