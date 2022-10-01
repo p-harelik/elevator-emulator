@@ -29,23 +29,8 @@ export default {
   border-radius: 50%;
 }
 
-.button-call_inner:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .button-call:disabled .button-call_inner {
-  border-color: #e52828;
-}
-
-.button-call:disabled .button-call_inner:before {
   background-color: #e52828;
+  border-color: inherit;
 }
 </style>
