@@ -32,7 +32,6 @@ export default {
         : "🠗";
     },
     position() {
-      // const { endFloorNumber } = this.elevatorItem;
       return (this.elevatorItem.endFloorNumber - 1) * this.floorHeight;
     },
     moveTime() {
@@ -51,13 +50,13 @@ export default {
 
 <style scoped>
 .elevator-cabine {
-  background-color: cornflowerblue;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   transition-property: bottom;
   transition-timing-function: linear;
+  background-color: cornflowerblue;
 }
 
 .wait {
