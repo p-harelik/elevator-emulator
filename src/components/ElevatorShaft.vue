@@ -28,11 +28,9 @@ export default {
 
 <style scoped>
 .elevator-shaft {
+  position: relative;
   flex-basis: 100px;
   min-width: 100px;
-  position: relative;
-
-  flex-direction: column-reverse;
   border-width: 0 2px;
   border-style: solid;
   border-color: #242424;
