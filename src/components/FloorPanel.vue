@@ -32,10 +32,4 @@ export default {
 .floor-panel {
   flex-grow: 1;
 }
-/*button {*/
-/*  cursor: pointer;*/
-/*}*/
-/*button:disabled {*/
-/*  background-color: rgba(245, 109, 109, 0.6);*/
-/*}*/
 </style>
