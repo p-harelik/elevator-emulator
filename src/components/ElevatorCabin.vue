@@ -6,9 +6,9 @@
     }"
     :style="liftStyle"
   >
-    <h1 v-if="elevatorItem.status !== 'free'">
+    <div class="elevator-cabine__info" v-if="elevatorItem.status === 'move'">
       {{ direction }} {{ elevatorItem.endFloorNumber }}
-    </h1>
+    </div>
   </div>
 </template>
 
@@ -28,8 +28,8 @@ export default {
     direction() {
       return this.elevatorItem.endFloorNumber >
         this.elevatorItem.startFloorNumber
-        ? "🡅"
-        : "🡇";
+        ? "🠕"
+        : "🠗";
     },
     position() {
       // const { endFloorNumber } = this.elevatorItem;
@@ -61,6 +61,27 @@ export default {
 }
 
 .wait {
-  opacity: 0.5;
+  animation-name: blink;
+  animation-timing-function: linear;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.elevator-cabine__info {
+  position: absolute;
+  left: 50%;
+  margin-top: 5px;
+  margin-right: -50%;
+  padding: 5px 15px;
+  border-radius: 5px;
+  transform: translateX(-50%);
+  background-color: #545454;
+  color: #fff;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
 }
 </style>
