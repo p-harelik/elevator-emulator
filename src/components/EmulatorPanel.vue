@@ -75,7 +75,9 @@ export default {
     },
     isElevatorOnTargetFloor(floorNumber) {
       return this.elevators.find(
-        (elevator) => elevator.startFloorNumber === floorNumber
+        (elevator) =>
+          elevator.startFloorNumber === floorNumber &&
+          elevator.status !== "move"
       );
     },
     getTargetElevator(elevators, floor) {
