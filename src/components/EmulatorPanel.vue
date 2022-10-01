@@ -93,17 +93,18 @@ export default {
       return arr[0];
     },
 
-    moveElevator(elevator, floor) {
-      elevator.endFloorNumber = floor;
+    moveElevator(elevator, floorNumber) {
+      elevator.endFloorNumber = floorNumber;
       elevator.status = "move";
       const moveTime =
-        elevator.speed * Math.abs(elevator.startFloorNumber - floor);
+        elevator.speed * Math.abs(elevator.startFloorNumber - floorNumber);
 
       setTimeout(() => {
         elevator.status = "wait";
-        elevator.startFloorNumber = floor;
+        elevator.startFloorNumber = floorNumber;
         this.saveElevators();
-        this.floors[floor - 1].isActiveButton = false;
+        this.floors[floorNumber - 1].isActiveButton = false;
+
         setTimeout(() => {
           elevator.status = "free";
           this.callQueue.shift();
@@ -172,8 +173,8 @@ export default {
     }
   },
   created() {
-    this.floors = this.generateFloors(DefaultValues.floorsCount);
-    this.elevators = this.generateElevators(DefaultValues.elevatorsCount);
+    this.floors = this.generateFloors(DefaultValues.floorsCount || 5);
+    this.elevators = this.generateElevators(DefaultValues.elevatorsCount || 1);
   },
 };
 </script>
@@ -189,8 +190,8 @@ export default {
 }
 
 .wrap {
-  display: flex;
   position: relative;
+  display: flex;
 }
 
 .container__underlay {
