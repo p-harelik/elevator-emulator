@@ -47,10 +47,9 @@ export default {
     },
   },
   watch: {
-    processingQueue(newValue) {
+    processingQueue() {
       this.saveActiveFloors();
       if (this.freeElevators.length) {
-        console.log(newValue);
         const targetFloor = this.processingQueue.shift();
         const targetElevator = this.getTargetElevator(
           this.freeElevators,
