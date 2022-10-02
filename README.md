@@ -1,24 +1,32 @@
-# elevator-emulator
+# Эмулятор лифта
+## Описание
+Приложение  состоит из схемы нескольких этажей с нумерацией и кнопками вызова лифта , а также из самой шахты лифта с кабиной. При нажатии на кнопку производится вызов лифта. 
 
-## Project setup
+
+![Скриншот с 1 лифтом](https://i2.paste.pics/IWUEE.png?trs=1d482173d254c3f117acdd853a5ac1b068b0d9954f17ba0f0abe5ccbb3356b5e)
+
+![Скриншот с 5 лифтами](https://i2.paste.pics/IWUEW.png?trs=1d482173d254c3f117acdd853a5ac1b068b0d9954f17ba0f0abe5ccbb3356b5e)
+
+Добавлено сохранение состояния приложения при перезагрузке страницы (работает при конфигурации с 1 (одним) лифтом).
+### Конфигурация по умолчанию
+Количество этажей по умолчанию: **5**  
+Количество шахт лифта по умолчанию: **1**  
+
+Установление значение производится в файле `src/emulator.config.js`
+
+```
+module.exports = {
+  floorsCount: 5, // количество этажей
+  elevatorsCount: 1, // количество лифтов
+};
+```
+
+## Установка
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Запуск
 ```
-npm run serve
+npm run start
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
